@@ -1,0 +1,12 @@
+# Node Modules
+node_modules
+
+# VS Code
+.vscode
+
+# Coverage
+coverage
+
+# TypeScript Dist
+dist
+.DS_Store
