@@ -11,6 +11,11 @@
 
 At this point you could optionally create plug-in-able type logic that would allow you to trigger other events, apply highlights or observations in a UI, that aren't covered by the scope in the Wink App or Alexa.
 
+# Alternate Flow
+- Setup an AWS API Gateway with Lambda, with an on demand DB backend like DynamoDB
+- Add a callback/hook via Wink API for a device pointing to the AWS API Gateway
+- Configure a similar stack for extracting the stored data and perform aggregations, etc for front-end
+
 # Use Cases
 - Currently there is no persistence of your personal IoT data that may help you to make decisions on usage, etc.  The Wink App may does offer tracking of activity, but doesn't aggregate or provide insight into trends etc.  Further, you can only see discrete activity related to Wink, what about other devices not in your Wink Hub?  Wouldn't it be nice to be able to see ALL activity across disparate devices and interfaces?
 - Currently the tools that do offer some insights into your IoT activity, like Nest, are somewhat hampered as they consider only their properiety scope, and also these insights can vary significantly depending on your use cases, the space these devices operate in, your preferences etc, so I'd like to explore the limits of these variables.

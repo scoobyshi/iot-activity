@@ -23,7 +23,9 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "aws-sdk": "^2.400.0",
     "pubnub": "^4.21.7",
+    "uuid": "^3.3.2",
     "wink-api": "github:scoobyshi/wink-api#fix-declaration"
   }
 }
