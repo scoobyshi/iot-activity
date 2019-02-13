@@ -2,12 +2,12 @@
   "defaultSeverity": "error",
   "extends": [
     "tslint:recommended",
-    "tslint-config-airbnb-base",
-    "tslint-sonarts"
+    "tslint-config-airbnb-base"
   ],
   "jsRules": {},
   "rules": {
-    "no-console": [false]
+    "no-console": [false],
+    "ter-max-len": [true, 150]
   },
   "rulesDirectory": []
 }

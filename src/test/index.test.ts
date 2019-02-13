@@ -1,24 +1,17 @@
-import * as AWS from 'aws-sdk';
-import * as uuid from 'uuid/v4';
+import { IUniqueDevice } from '../models/interfaces';
 
-AWS.config.update({region: 'us-west-2'});
-
-let dynamodb = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
-
-interface UniqueDevice extends WinkAPI.IDevice {
-  uniqueid: string;
-}
-
-let optionalDesiredState = {
+const optionalDesiredState = {
   brightness: 0.13,
-  powered: true
-}
+  powered: true,
+};
 
-let payload: UniqueDevice = {
-  uniqueid: uuid(),
-  capabilities: { 
-    is_generic: true, 
-    mass_broadcast_disabled: true 
+const LAT_EXAMPLE = 49.289951;
+const LONG_EXAMPLE = -123.13303;
+
+const mockPayload: IUniqueDevice = {
+  capabilities: {
+    is_generic: true,
+    mass_broadcast_disabled: true,
   },
   created_at: 1549515738,
   desired_state: optionalDesiredState,
@@ -47,9 +40,9 @@ let payload: UniqueDevice = {
     firmware_version_updated_at: 1549766163.286579,
     powered: false,
     powered_changed_at: 1549766163.286579,
-    powered_updated_at: 1549766163.286579 
+    powered_updated_at: 1549766163.286579,
   },
-  lat_lng: [ 49.289951, -123.13303 ],
+  lat_lng: [LAT_EXAMPLE, LONG_EXAMPLE],
   light_bulb_id: '4108632',
   linked_service_id: null,
   local_id: '17',
@@ -59,69 +52,25 @@ let payload: UniqueDevice = {
   manufacturer_device_model: 'generic_zigbee',
   model_name: 'Generic Zigbee Light Bulb',
   name: 'Master Bedroom Light 1',
+  nonce: 80612345,
   object_id: '41012345',
   object_type: 'light_bulb',
   order: 0,
   primary_upc_code: 'generic_zigbee_light_bulb',
   radio_type: 'zigbee',
-  subscription:
-  { pubnub:
-    { channel:
-      'b32131241231-user123',
+  subscription: {
+    pubnub: {
+      channel: 'b32131241231-user123',
       origin: null,
       subscribe_key: 'sub-c-12345' 
-    } 
+    },
   },
   triggers: [],
+  uniqueid: '1000005',
   units: {},
   upc_code: 'generic_zigbee_light_bulb',
   upc_id: '124',
   updated_at: 1549665310,
-  user_ids: [ '4071234' ],
+  user_ids: ['4071234'],
   uuid: '2c052dea-bbdd-42c2-8af1-123456',
-  nonce: 80612345
 };
-
-/* var params = {
-  TableName: 'devices',
-  Key: {
-    'object_id': {S: '002'}
-  }
-}; */
-
-let params = {
-  TableName: 'winkdevices',
-  FilterExpression: '#nm = :name',
-  ExpressionAttributeNames: {
-    '#nm': 'name'
-  },
-  ExpressionAttributeValues: {
-    ':name': 'Master Bedroom Light 1'
-  }
-}
-
-dynamodb.scan(params, (err, data) => {
-  if (err) {
-    console.log("Error", err);
-  } else {
-    console.log("Success", data.Items);
-  }
-});
-
-/* let payload = {
-  object_id: {S: '002'},
-  object_name: {S: 'This is another test - duplicate?'}
-} */
-
-/* var params = {
-  TableName: 'winkdevices',
-  Item: payload
-}; 
-
-dynamodb.put(params, (err, data) => {
-  if (err) {
-    console.log("Error", err);
-  } else {
-    console.log("Success", data);
-  }
-}); */
