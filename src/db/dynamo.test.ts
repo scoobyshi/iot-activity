@@ -1,4 +1,6 @@
-import { IUniqueDevice } from '../models/interfaces';
+import * as uuid from 'uuid/v4';
+import { IShortResponse, IUniqueDevice } from '../models/interfaces';
+import Dynamo from './dynamo';
 
 const optionalDesiredState = {
   brightness: 0.13,
@@ -8,7 +10,7 @@ const optionalDesiredState = {
 const LAT_EXAMPLE = 49.289951;
 const LONG_EXAMPLE = -123.13303;
 
-const mockPayload: IUniqueDevice = {
+const mockPayload: WinkAPI.IDevice = {
   capabilities: {
     is_generic: true,
     mass_broadcast_disabled: true,
@@ -62,15 +64,54 @@ const mockPayload: IUniqueDevice = {
     pubnub: {
       channel: 'b32131241231-user123',
       origin: null,
-      subscribe_key: 'sub-c-12345' 
+      subscribe_key: 'sub-c-12345',
     },
   },
   triggers: [],
-  uniqueid: '1000005',
   units: {},
   upc_code: 'generic_zigbee_light_bulb',
   upc_id: '124',
   updated_at: 1549665310,
   user_ids: ['4071234'],
-  uuid: '2c052dea-bbdd-42c2-8af1-123456',
+  uuid: '423234235jlabadas34132',
 };
+
+describe('Dynamo DB Connection', () => {
+  const dynamo = new Dynamo();
+
+  try {
+    beforeEach(() => {
+      dynamo.putEventData = jest.fn();
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    it('Should push the event payload', async () => {
+      const spy: jest.SpyInstance = jest.spyOn(dynamo, 'putEventData');
+      await dynamo.putEventData(mockPayload);
+      expect(spy).toHaveBeenCalledWith(mockPayload);
+    });
+
+    it('Should generate a uniqueid', async () => {
+      const spy: jest.SpyInstance = jest.spyOn(dynamo, 'putEventData');
+      spy.mockImplementation(() => {
+        const mockResponse: IShortResponse = {
+          message: 'Success',
+          payload: {
+            ...mockPayload,
+            uniqueid: uuid(),
+          },
+          statusCode: 200,
+          time: new Date(),
+        };
+        return mockResponse;
+      });
+      const response = await dynamo.putEventData(mockPayload);
+      expect(response).toHaveProperty('payload.uniqueid');
+    });
+  } catch (err) {
+    throw (err);
+  }
+});

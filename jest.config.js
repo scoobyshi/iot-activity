@@ -22,6 +22,7 @@ module.exports = {
     '**/src/controllers/**/*.ts',
     '**/src/services/**/*.ts',
     '**/src/lib/**/*.ts',
+    '**/src/db/**/*.ts',
   ],
   reporters: [
     'default',

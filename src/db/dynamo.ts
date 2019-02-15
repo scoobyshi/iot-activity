@@ -1,36 +1,49 @@
+import { AWSError } from 'aws-sdk';
 import * as AWS from 'aws-sdk';
 import * as uuid from 'uuid/v4';
 import config from '../config';
-import { IUniqueDevice } from '../models/interfaces';
-
-AWS.config.update({ region: config.dynamo.region });
-
-const dynamodb = new AWS.DynamoDB.DocumentClient({ apiVersion: config.dynamo.apiVersion });
+import { IShortResponse, IUniqueDevice } from '../models/interfaces';
 
 class Dynamo {
   private tableName: string;
+  private dynamodb;
 
   constructor() {
     this.tableName = config.dynamo.tableName;
+    AWS.config.update({ region: config.dynamo.region });
+    this.dynamodb = new AWS.DynamoDB.DocumentClient({ apiVersion: config.dynamo.apiVersion });
   }
 
-  public putEventData(deviceData: WinkAPI.IDevice) {
-    const uniqueDeviceData: IUniqueDevice = {
-      uniqueid: uuid(),
-      ...deviceData,
-    };
+  public putEventData(deviceData: WinkAPI.IDevice): Promise<IShortResponse> {
+    return new Promise<IShortResponse>((resolve, reject) => {
+      const uniqueDeviceData: IUniqueDevice = {
+        uniqueid: uuid(),
+        ...deviceData,
+      };
 
-    const params = {
-      Item: uniqueDeviceData,
-      TableName: this.tableName,
-    };
+      const params = {
+        Item: uniqueDeviceData,
+        TableName: this.tableName,
+      };
 
-    dynamodb.put(params, (err, data) => {
-      if (err) {
-        console.log('Error', err);
-      } else {
-        console.log('Success', data);
-      }
+      this.dynamodb.put(params, (err: AWSError, data) => {
+        if (err) {
+          // Expect err.statusCode = 400, also err.message = "Requested resource not found"
+          // console.log('Error', err);
+          reject(err);
+        }
+
+        // Mimic the err response from aws for success
+        const response: IShortResponse = {
+          message: 'Success',
+          payload: uniqueDeviceData,
+          statusCode: 200,
+          time: new Date(),
+        };
+
+        // console.log('Success', data);
+        resolve(response);
+      });
     });
   }
 
@@ -46,7 +59,7 @@ class Dynamo {
       TableName: this.tableName,
     };
 
-    dynamodb.scan(params, (err, data) => {
+    this.dynamodb.scan(params, (err, data) => {
       if (err) {
         console.log('Error', err);
         return err;
