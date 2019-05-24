@@ -1,6 +1,9 @@
 # Node Modules
 node_modules
 
+# Logging
+*.log
+
 # VS Code
 .vscode
 

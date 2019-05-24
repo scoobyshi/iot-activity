@@ -1,3 +1,19 @@
+# Description
+This is a simple app that listens for some kind of IoT activity, in this initial example, activity on a Wink hub and devices, and saves some of these events / facts for later retrieval, aggregation, insight, etc.
+
+The types of devices might include motion sensors, light bulbs, plugs, etc.  Later we could extend this to include non-Wink devices including home brew Raspberry Pi items like Garage Door controllers, Sprinkler controllers (see my older blog for examples), temperature sensors, blind remotes, etc.
+
+# Start and Configuration
+
+## Environment
+Checkout the /config folder.  WINK_TOKEN should contain your generated access token (expiry?), and details for an AWS Dynamo DB (could be another type, its just what I'm using).
+
+Since we're using AWS, appropriate credentials will need to be in the users home folder, for example ~/.aws/credentials.
+
+## Quick Start
+For development - `npm run dev`
+
+For production - can either use the supplied Dockerfile (which uses pm2), or deploy as a SystemD process.
 
 # Scope
 - Listen for IoT events, initially with Wink pub/sub, later also AWS IoT, other data sources like internal MQ? (eg Temp sensor in home, published to AWS IoT)

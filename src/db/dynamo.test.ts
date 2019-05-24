@@ -1,5 +1,5 @@
 import * as uuid from 'uuid/v4';
-import { IShortResponse, IUniqueDevice } from '../models/interfaces';
+import { IShortResponse, ISimpleDevice, IUniqueDevice } from '../models/interfaces';
 import Dynamo from './dynamo';
 
 const optionalDesiredState = {
@@ -10,19 +10,8 @@ const optionalDesiredState = {
 const LAT_EXAMPLE = 49.289951;
 const LONG_EXAMPLE = -123.13303;
 
-const mockPayload: WinkAPI.IDevice = {
-  capabilities: {
-    is_generic: true,
-    mass_broadcast_disabled: true,
-  },
-  created_at: 1549515738,
+const mockPayload: ISimpleDevice = {
   desired_state: optionalDesiredState,
-  device_manufacturer: 'generic_zigbee',
-  gang_id: null,
-  hidden_at: null,
-  hub_id: '123456',
-  icon_code: 'light_bulb-light_bulb',
-  icon_id: '71',
   last_reading: {
     brightness: 0.13,
     brightness_changed_at: 1549683566.607007,
@@ -44,36 +33,12 @@ const mockPayload: WinkAPI.IDevice = {
     powered_changed_at: 1549766163.286579,
     powered_updated_at: 1549766163.286579,
   },
-  lat_lng: [LAT_EXAMPLE, LONG_EXAMPLE],
-  light_bulb_id: '4108632',
-  linked_service_id: null,
-  local_id: '17',
-  locale: 'en_us',
-  location: '123 Anystreet, Anycity, ON, Canada',
-  manufacturer_device_id: null,
-  manufacturer_device_model: 'generic_zigbee',
   model_name: 'Generic Zigbee Light Bulb',
   name: 'Master Bedroom Light 1',
-  nonce: 80612345,
   object_id: '41012345',
   object_type: 'light_bulb',
-  order: 0,
-  primary_upc_code: 'generic_zigbee_light_bulb',
   radio_type: 'zigbee',
-  subscription: {
-    pubnub: {
-      channel: 'b32131241231-user123',
-      origin: null,
-      subscribe_key: 'sub-c-12345',
-    },
-  },
-  triggers: [],
-  units: {},
-  upc_code: 'generic_zigbee_light_bulb',
-  upc_id: '124',
   updated_at: 1549665310,
-  user_ids: ['4071234'],
-  uuid: '423234235jlabadas34132',
 };
 
 describe('Dynamo DB Connection', () => {

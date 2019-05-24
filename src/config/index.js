@@ -8,4 +8,11 @@ export default {
     region: 'us-west-2',
     tableName: 'winkdevices',
   },
+  log: {
+    file: {
+      enable: process.env.LOG_FILE_ENABLE || false,
+      name: 'iot-activity.log',
+    },
+    level: process.env.LOG_LEVEL || 'info',
+  },
 };

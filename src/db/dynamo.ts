@@ -2,7 +2,7 @@ import { AWSError } from 'aws-sdk';
 import * as AWS from 'aws-sdk';
 import * as uuid from 'uuid/v4';
 import config from '../config';
-import { IShortResponse, IUniqueDevice } from '../models/interfaces';
+import { IShortResponse, ISimpleDevice, IUniqueDevice } from '../models/interfaces';
 
 class Dynamo {
   private tableName: string;
@@ -14,7 +14,7 @@ class Dynamo {
     this.dynamodb = new AWS.DynamoDB.DocumentClient({ apiVersion: config.dynamo.apiVersion });
   }
 
-  public putEventData(deviceData: WinkAPI.IDevice): Promise<IShortResponse> {
+  public putEventData(deviceData: ISimpleDevice): Promise<IShortResponse> {
     return new Promise<IShortResponse>((resolve, reject) => {
       const uniqueDeviceData: IUniqueDevice = {
         uniqueid: uuid(),
