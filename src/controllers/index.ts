@@ -15,15 +15,18 @@ class IoTActivity {
       const deviceList = await this.wink.getAllDevices();
 
       deviceList.data.forEach((device) => {
+        // console.log('Subscribe:', device.subscription.pubnub);
         const pubnub = new PubNub({
+          origin: device.subscription.pubnub.origin,
           subscribeKey: device.subscription.pubnub.subscribe_key,
         });
 
         logger.info(`Subscribing to pubnub for: ${device.name}`);
-        pubnub.subscribe({ channels: [device.subscription.pubnub.channel] });
+        // pubnub.subscribe({ channels: [device.subscription.pubnub.channel] });
 
         pubnub.addListener({
           message: async (message) => {
+            console.log('Message:', message);
             const deviceData: WinkAPI.IDevice = JSON.parse(message.message);
             const simpleDeviceData: ISimpleDevice = this.wink.formatDeviceData(deviceData);
 
@@ -37,7 +40,12 @@ class IoTActivity {
               }
             }
           },
+          status: (statusEvent) => {
+            console.log('Status:', statusEvent);
+          },
         });
+
+        pubnub.subscribe({ channels: [device.subscription.pubnub.channel] });
       });
     } catch (err) {
       logger.info('Wink Exception:', err);
