@@ -1,6 +1,6 @@
 import IoTActivity from './controllers';
 
 const iot = new IoTActivity();
-const persistEvent: boolean = true;
+const persistEvent: boolean = false;
 
 iot.createDevicesListener(persistEvent);
