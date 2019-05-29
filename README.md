@@ -10,6 +10,10 @@ Checkout the /config folder.  WINK_TOKEN should contain your generated access to
 
 Since we're using AWS, appropriate credentials will need to be in the users home folder, for example ~/.aws/credentials.
 
+### Wink API
+You can retrieve a token for Wink by submitting user credentials to:
+https://api.wink.com/oauth2/token
+
 ## Quick Start
 For development - `npm run dev`
 
@@ -35,7 +39,7 @@ At this point you could optionally create plug-in-able type logic that would all
 # Use Cases
 - Currently there is no persistence of your personal IoT data that may help you to make decisions on usage, etc.  The Wink App does not appear to offer tracking of activity (eg History in PubNub), and doesn't aggregate or provide insight into trends etc.  Further, you can only see discrete activity related to Wink, what about other devices not in your Wink Hub?  Wouldn't it be nice to be able to see ALL activity across disparate devices and interfaces?
 - This could also be used to create our own event subscriber to daisy chain other IoT devices that are not in our Wink hub (eg home brew stuff like Raspberry Pi, or items connected potentially to HomeKit/Siri etc)
-- Currently the tools that do offer some insights into your IoT activity, like Nest, are somewhat hampered as they consider only their properiety scope, and also these insights can vary significantly depending on your use cases, the space these devices operate in, your preferences etc, so I'd like to explore the limits of these variables.
+- Currently the tools that do offer some insights into your IoT activity, like Nest, are somewhat hampered as they consider only their proprietary scope, and also these insights can vary significantly depending on your use cases, the space these devices operate in, your preferences etc, so I'd like to explore the limits of these variables.
 
 # Additional Scope
 - Potentially de-compose this service, making the wink-api/pub/sub part a separate package

@@ -41,7 +41,8 @@ class IoTActivity {
             }
           },
           status: (statusEvent) => {
-            console.log('Status:', statusEvent);
+            // This is noisy, the socket often hangs up and reconnects
+            // console.log('Status:', statusEvent);
           },
         });
 
