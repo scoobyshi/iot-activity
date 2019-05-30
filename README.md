@@ -17,6 +17,8 @@ https://api.wink.com/oauth2/token
 ## Quick Start
 For development - `npm run dev`
 
+For auto reload of file changes during dev (using nodemon and ts-node), use - `npm run start:dev`
+
 For production - can either use the supplied Dockerfile (which uses pm2), or deploy as a SystemD process.
 
 # Scope
