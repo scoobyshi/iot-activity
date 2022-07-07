@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.400.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "pubnub": "^4.21.7",
     "uuid": "^3.3.2",
     "wink-api": "github:scoobyshi/wink-api#fix-declaration",
